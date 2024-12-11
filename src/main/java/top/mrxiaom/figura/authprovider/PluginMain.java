@@ -9,9 +9,11 @@ import top.mrxiaom.figura.authprovider.auth.AuthMeProvider;
 import top.mrxiaom.figura.authprovider.auth.IAuthProvider;
 import top.mrxiaom.figura.authprovider.server.HttpAdapter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
 public class PluginMain extends JavaPlugin {
@@ -67,6 +69,17 @@ public class PluginMain extends JavaPlugin {
 
     public void customPayload(Player player, String id) {
         // TODO: 发送 CustomPayLoad 包
+        if (!player.getListeningPluginChannels().contains(id)) {
+            Class<? extends Player> clazz = player.getClass();
+            try {
+                Method method = clazz.getDeclaredMethod("addChannel", String.class);
+                method.invoke(player, id);
+            } catch (ReflectiveOperationException e) {
+                warn(getLogger(), e);
+                return;
+            }
+        }
+        player.sendPluginMessage(this, id, new ByteArrayOutputStream().toByteArray());
     }
 
     public static void warn(Logger logger, Throwable t) {
