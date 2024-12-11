@@ -1,0 +1,14 @@
+name: FiguraAuthProvider
+version: '${version}'
+main: top.mrxiaom.figura.authprovider.PluginMain
+api-version: 1.13
+softdepend:
+  - AuthMe
+authors: [ MrXiaoM ]
+libraries:
+  - 'commons-lang:commons-lang:2.6'
+commands:
+  figuraauthprovider:
+    description: Main command of FiguraAuthProvider
+    aliases:
+      - fap
