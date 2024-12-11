@@ -7,14 +7,14 @@ import top.mrxiaom.figura.authprovider.auth.IAuthProvider;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import static top.mrxiaom.figura.authprovider.PluginMain.warn;
 
 public class HttpAdapter {
     HttpServer server;
@@ -52,7 +52,7 @@ public class HttpAdapter {
                 os.write(response);
                 os.close();
             } catch (Throwable t) {
-                warn(t);
+                warn(logger, t);
             }
         });
         server.start();
@@ -74,13 +74,6 @@ public class HttpAdapter {
         return map;
     }
 
-    private void warn(Throwable t) {
-        StringWriter sw = new StringWriter();
-        try (PrintWriter pw = new PrintWriter(sw)) {
-            t.printStackTrace(pw);
-        }
-        logger.warning(sw.toString());
-    }
     public void close() {
         if (server != null) {
             server.stop(0);
