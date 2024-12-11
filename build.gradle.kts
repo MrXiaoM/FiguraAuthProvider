@@ -18,6 +18,7 @@ dependencies {
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
 
     compileOnly("commons-lang:commons-lang:2.6")
+    compileOnly("org.jetbrains:annotations:24.0.0")
 }
 
 val targetJavaVersion = 11

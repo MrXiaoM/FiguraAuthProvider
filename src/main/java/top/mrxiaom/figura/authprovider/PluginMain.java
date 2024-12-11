@@ -25,6 +25,7 @@ public class PluginMain extends JavaPlugin {
         if (authProvider == null) {
             getLogger().warning("没有发现任何验证提供器，所有在线玩家都可通过验证");
         }
+        Commands.register(this);
         reloadConfig();
 
     }
