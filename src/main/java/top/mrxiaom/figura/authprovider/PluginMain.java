@@ -2,6 +2,7 @@ package top.mrxiaom.figura.authprovider;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.mrxiaom.figura.authprovider.auth.AuthMeProvider;
 import top.mrxiaom.figura.authprovider.auth.IAuthProvider;
@@ -36,10 +37,17 @@ public class PluginMain extends JavaPlugin {
         if (adapter != null) {
             adapter.close();
         }
+        if (authProvider != null) {
+            HandlerList.unregisterAll(authProvider);
+        }
     }
 
     public IAuthProvider getAuthProvider() {
         return authProvider;
+    }
+
+    public void customPayload(Player player, String id) {
+        // TODO: 发送 CustomPayLoad 包
     }
 
     public static Player getOnlinePlayer(String name) {
