@@ -1,40 +1,51 @@
 plugins {
     java
+    id ("com.github.johnrengelman.shadow") version "7.0.0"
 }
+allprojects {
+    group = "top.mrxiaom"
+    version = "1.0.0"
 
-group = "top.mrxiaom"
-version = "1.0.0"
+    apply(plugin = "java")
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven("https://repo.codemc.io/repository/maven-public/")
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        maven("https://repo.rosewooddev.io/repository/public/")
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+    }
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven("https://repo.codemc.io/repository/maven-public/")
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    maven("https://oss.sonatype.org/content/groups/public/")
+    val targetJavaVersion = 11
+    extensions.configure<JavaPluginExtension> {
+        val javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+        }
+    }
+
+    tasks {
+        withType<JavaCompile>().configureEach {
+            options.encoding = "UTF-8"
+            options.release.set(targetJavaVersion)
+        }
+    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot:1.20.4") // NMS
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
 
-    compileOnly("commons-lang:commons-lang:2.6")
     compileOnly("org.jetbrains:annotations:24.0.0")
-}
-
-val targetJavaVersion = 11
-java {
-    val javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
-    }
+    shadow(project(":bungeecord"))
 }
 
 tasks {
-    withType<JavaCompile>().configureEach {
-        options.encoding = "UTF-8"
-        options.release.set(targetJavaVersion)
+    shadowJar {
+        archiveClassifier.set("")
     }
     processResources {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE

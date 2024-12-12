@@ -1,0 +1,4 @@
+name: FiguraAuthProvider
+main: top.top.mrxiaom.mrxiaom.figura.bungee.PluginMain
+version: ${version}
+author: MrXiaoM
