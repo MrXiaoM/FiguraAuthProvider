@@ -56,6 +56,7 @@ public class HttpAdapter {
             }
         });
         server.start();
+        plugin.getLogger().info("验证服务已在 " + host + ":" + port + " 启动");
     }
 
     private Map<String, String> parseQuery(String query) {
