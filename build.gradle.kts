@@ -46,6 +46,10 @@ dependencies {
 tasks {
     shadowJar {
         archiveClassifier.set("")
+        configurations = listOf(project.configurations.shadow.get())
+    }
+    build {
+        dependsOn(shadowJar)
     }
     processResources {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
