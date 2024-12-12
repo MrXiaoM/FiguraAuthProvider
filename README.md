@@ -21,6 +21,7 @@
 **Bukkit插件** 会开启一个 http服务器，有以下接口可使用
 + `GET /hasJoined` 用于后端 sculptor 的 authProviders
 + `POST /pushPlayerList` 用于接收代理端推送的全服玩家列表
++ (这个http服务器仅用于内网，请勿公开)
 
 后端 sculptor 会向 Bukkit插件 请求，以判定是否验证通过，验证通过时会返回玩家的uuid。
 + 玩家在线时，通过 登录插件提供器 检查验证是否通过，玩家已登录时验证通过
@@ -45,10 +46,12 @@
 + Purpur 服务端
 + sculptor 后端
 + Syncthing 同步工具
+
 租了几台低配置高带宽的服务器，做低成本游戏盾和负载均衡：
 + hopper-rs 反向代理，连接 Waterfall 代理端
 + Syncthing 同步工具
 + nginx 静态页面，配合 Syncthing 分发服务器资源包
+
 使用 Cloudflare Tunnel 为以下服务做内网穿透：
 + sculptor 后端
 
