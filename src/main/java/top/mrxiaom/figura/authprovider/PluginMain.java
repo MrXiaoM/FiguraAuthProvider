@@ -21,6 +21,7 @@ public class PluginMain extends JavaPlugin {
     IAuthProvider authProvider = null;
     @Override
     public void onEnable() {
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "figura:reconnect");
         if (hasPlugin("AuthMe")) {
             authProvider = new AuthMeProvider(this);
         }
