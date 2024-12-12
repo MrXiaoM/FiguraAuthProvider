@@ -18,6 +18,17 @@
 
 本插件分为 Bukkit插件 和 代理插件 两个变种。
 
+> 省流：
+> + Bukkit插件 **只需要**装到登录服
+> + 将 代理插件 安装到代理端
+> + 在 sculptor 的 authProviders 改为
+> ```toml
+> authProviders = [
+>     { name = "Local", url = "http://127.0.0.1:5009/hasJoined" }
+> ]
+> ```
+> 这样就可以了。
+
 **Bukkit插件** 会开启一个 http服务器，有以下接口可使用
 + `GET /hasJoined` 用于后端 sculptor 的 authProviders
 + `POST /pushPlayerList` 用于接收代理端推送的全服玩家列表
