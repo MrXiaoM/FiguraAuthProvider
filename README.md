@@ -1,12 +1,12 @@
 # FiguraAuthProvider
 
-第三方后端 [sculptor](https://github.com/MrXiaoM/sculptor) 的验证提供器，需要配合 [修改的Figura](https://github.com/MrXiaoM/Figura/tree/1.20.4) 使用。
+第三方后端 [sculptor](https://github.com/MrXiaoM/sculptor) 的验证提供器，需要配合改版 [FiguraLambda](https://github.com/MrXiaoM/FiguraLambda) 使用。
 
 ## 这是什么
 
 这是玩家模型Mod [Figura](https://modrinth.com/mod/figura) 的后端验证提供器，使得离线模式的玩家可在特定的服务器中，连接到自建后端拉取模型。
 
-由于以下原因，你需要使用 [修改的Figura](https://github.com/MrXiaoM/Figura/tree/1.20.4) 才可正常使用这套生态。
+由于以下原因，你需要使用 [FiguraLambda](https://github.com/MrXiaoM/FiguraLambda) 才可正常使用这套生态。
 + Figura 前端（客户端Mod）在向后端请求验证之前，会先请求一次 Minecraft 正版验证，猜测这么做是为了减轻后端压力
 + Figura 一旦请求验证失败，就不会再重试，除非你手动打开衣柜界面重新连接后端服务器
 
@@ -68,5 +68,5 @@
 
 ## 鸣谢
 
-+ [FiguraMC/Figura](https://github.com/FiguraMC/Figura): 强大的玩家模型修改Mod，这个项目的基础 -- LGPL-2.1 License
-+ [shiroyashik/sculptor](https://github.com/shiroyashik/sculptor): 第三方Figura后端，使得自定义验证方式成为可能 -- GLP-3.0 License
++ [FiguraMC/Figura](https://github.com/FiguraMC/Figura): 强大的玩家模型修改Mod，这个项目的基础 —— LGPL-2.1 License
++ [shiroyashik/sculptor](https://github.com/shiroyashik/sculptor): 第三方Figura后端，使得自定义验证方式成为可能 —— GPL-3.0 License
