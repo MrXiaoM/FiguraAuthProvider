@@ -16,7 +16,7 @@
 
 ## 这个插件如何工作
 
-本插件分为 Bukkit插件 和 代理插件 两个变种。
+本插件分为 Bukkit插件 和 代理插件 两个变种。目前所有变种均打包到了同一jar。
 
 > 省流：
 > + Bukkit插件 **只需要**装到登录服；如果不是离线模式，是外置登录，随便装到一个服就行
@@ -70,3 +70,10 @@
 
 + [FiguraMC/Figura](https://github.com/FiguraMC/Figura): 强大的玩家模型修改Mod，这个项目的基础 —— LGPL-2.1 License
 + [shiroyashik/sculptor](https://github.com/shiroyashik/sculptor): 第三方Figura后端，使得自定义验证方式成为可能 —— GPL-3.0 License
+
+## Figura Lambda 生态软件
+
++ [FiguraLambda](https://github.com/MrXiaoM/FiguraLambda): 客户端Mod
++ [sculptor](https://github.com/MrXiaoM/sculptor): 第三方后端(fork)
++ [FiguraAuthProvider](https://github.com/MrXiaoM/FiguraAuthProvider): 服务端/代理端 玩家验证插件 `<-- 你在这里`
++ [FiguraAvatars](https://github.com/MrXiaoM/FiguraAvatars): 服务端 模型管理插件
