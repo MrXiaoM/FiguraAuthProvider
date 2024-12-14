@@ -1,6 +1,6 @@
 # FiguraAuthProvider
 
-第三方后端 [sculptor](https://github.com/MrXiaoM/sculptor) 的验证提供器，需要配合改版 [FiguraLambda](https://github.com/MrXiaoM/FiguraLambda) 使用。
+第三方后端 [sculptor λ](https://github.com/MrXiaoM/sculptor) 的验证提供器，需要配合改版 [FiguraLambda](https://github.com/MrXiaoM/FiguraLambda) 使用。
 
 ## 这是什么
 
@@ -37,6 +37,10 @@
 后端 sculptor 会向 Bukkit插件 请求，以判定是否验证通过，验证通过时会返回玩家的uuid。
 + 玩家在线时，通过 登录插件提供器 检查验证是否通过，玩家已登录时验证通过
 + 玩家不在线时，通过 全服玩家列表 检查验证是否通过，玩家在此列表时验证通过
+
+在安装了 Vault 以及一个权限插件（比如 LuckPerms），并且权限插件已与 Vault 进行挂钩时，  
+如果玩家有 `figura.upload` 权限，那么TA的 `canUpload` 标志为 true。  
+但请注意，玩家需要重新连接到后端（重新进入服务器），这个标志才会刷新。
 
 玩家通过登录插件登录成功后，登录验证提供器接收到通知，会向客户端发送一个 CustomPayload 包，提醒客户端应该要重新连接后端服务器了。
 

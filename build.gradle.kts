@@ -13,6 +13,7 @@ allprojects {
         maven("https://repo.codemc.io/repository/maven-public/")
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://repo.rosewooddev.io/repository/public/")
+        maven("https://jitpack.io/")
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 
@@ -36,7 +37,7 @@ allprojects {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20-R0.1-SNAPSHOT")
-    compileOnly("org.spigotmc:spigot:1.20.4") // NMS
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
 
     compileOnly("org.jetbrains:annotations:24.0.0")

@@ -9,9 +9,13 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.mrxiaom.figura.authprovider.auth.AuthMeProvider;
 import top.mrxiaom.figura.authprovider.auth.IAuthProvider;
+import top.mrxiaom.figura.authprovider.perm.IPermissionProvider;
+import top.mrxiaom.figura.authprovider.perm.NoProvider;
+import top.mrxiaom.figura.authprovider.perm.VaultProvider;
 import top.mrxiaom.figura.authprovider.server.HttpAdapter;
 
 import java.io.ByteArrayOutputStream;
@@ -26,6 +30,7 @@ import java.util.logging.Logger;
 public class PluginMain extends JavaPlugin implements Listener {
     HttpAdapter adapter = null;
     IAuthProvider authProvider = null;
+    IPermissionProvider permProvider = null;
     private static Map<String, OfflinePlayer> playersByName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     @Override
     public void onEnable() {
@@ -35,6 +40,16 @@ public class PluginMain extends JavaPlugin implements Listener {
         }
         if (authProvider == null) {
             getLogger().warning("没有发现任何验证提供器，所有在线玩家都可通过验证");
+        }
+        if (hasPlugin("Vault")) {
+            permProvider = VaultProvider.create();
+            if (permProvider == null) {
+                permProvider = NoProvider.INSTANCE;
+                getLogger().warning("已安装 Vault 前置，但无法找到权限服务，无法与权限插件挂钩");
+            }
+        } else {
+            permProvider = NoProvider.INSTANCE;
+            getLogger().warning("未安装 Vault 前置，无法与权限插件挂钩");
         }
         Commands.register(this);
         reloadConfig();
@@ -88,8 +103,14 @@ public class PluginMain extends JavaPlugin implements Listener {
         }
     }
 
+    @Nullable
     public IAuthProvider getAuthProvider() {
         return authProvider;
+    }
+
+    @NotNull
+    public IPermissionProvider getPermProvider() {
+        return permProvider;
     }
 
     public void customPayload(Player player, String id) {

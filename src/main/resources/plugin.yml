@@ -3,6 +3,7 @@ version: '${version}'
 main: top.mrxiaom.figura.authprovider.PluginMain
 api-version: 1.13
 softdepend:
+  - Vault
   - AuthMe
 authors: [ MrXiaoM ]
 commands:

@@ -1,5 +1,6 @@
 package top.mrxiaom.figura.authprovider.server;
 
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.bukkit.entity.Player;
@@ -40,13 +41,25 @@ public class HttpAdapter {
                     responseMsg = "{\"msg\":\"玩家 " + userName + " 还没有登录\"}";
                 } else {
                     responseCode = 200;
-                    responseMsg = "{\"id\":\"" + player.getUniqueId() + "\"}";
+                    Boolean canUpload = plugin.getPermProvider().playerHas(userName, "figura.upload");
+                    JsonObject json = new JsonObject();
+                    json.addProperty("id", player.getUniqueId().toString());
+                    if (canUpload != null) {
+                        json.addProperty("can_upload", canUpload);
+                    }
+                    responseMsg = json.toString();
                 }
             } else {
                 String uuid = bungeePlayers.get(userName);
                 if (uuid != null) {
                     responseCode = 200;
-                    responseMsg = "{\"id\":\"" + uuid + "\"}";
+                    Boolean canUpload = plugin.getPermProvider().playerHas(userName, "figura.upload");
+                    JsonObject json = new JsonObject();
+                    json.addProperty("id", uuid);
+                    if (canUpload != null) {
+                        json.addProperty("can_upload", canUpload);
+                    }
+                    responseMsg = json.toString();
                 } else {
                     responseCode = 403;
                     responseMsg = "{\"msg\":\"玩家 " + userName + " 不在线\"}";
@@ -79,6 +92,7 @@ public class HttpAdapter {
                     sb.append(buffer, 0, len);
                 }
                 String string = sb.toString();
+                logger.info("接收到玩家列表: " + string);
                 bungeePlayers.clear();
                 String[] split = string.split(",");
                 for (String s : split) {
