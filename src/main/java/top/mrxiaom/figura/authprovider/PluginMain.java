@@ -25,6 +25,7 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public class PluginMain extends JavaPlugin implements Listener {
@@ -113,8 +114,12 @@ public class PluginMain extends JavaPlugin implements Listener {
         return permProvider;
     }
 
-    public void customPayload(Player player, String id) {
-        // TODO: 发送 CustomPayLoad 包
+    public void requestReconnect(Player player) {
+        customPayload(player, "figura:reconnect", new ByteArrayOutputStream().toByteArray());
+    }
+
+    public void customPayload(Player player, String id, byte[] bytes) {
+        // 发送 CustomPayLoad 包
         if (!player.getListeningPluginChannels().contains(id)) {
             Class<? extends Player> clazz = player.getClass();
             try {
@@ -125,7 +130,7 @@ public class PluginMain extends JavaPlugin implements Listener {
                 return;
             }
         }
-        player.sendPluginMessage(this, id, new ByteArrayOutputStream().toByteArray());
+        player.sendPluginMessage(this, id, bytes);
     }
 
     public static void warn(Logger logger, Throwable t) {

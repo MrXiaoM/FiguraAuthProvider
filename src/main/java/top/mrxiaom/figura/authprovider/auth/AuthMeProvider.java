@@ -22,6 +22,6 @@ public class AuthMeProvider implements IAuthProvider {
     @EventHandler
     public void on(LoginEvent e) {
         Player player = e.getPlayer();
-        plugin.customPayload(player, "figura:reconnect");
+        plugin.requestReconnect(player);
     }
 }
