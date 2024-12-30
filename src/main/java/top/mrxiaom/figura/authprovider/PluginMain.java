@@ -1,5 +1,9 @@
 package top.mrxiaom.figura.authprovider;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.CompositeByteBuf;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -112,6 +116,15 @@ public class PluginMain extends JavaPlugin implements Listener {
     @NotNull
     public IPermissionProvider getPermProvider() {
         return permProvider;
+    }
+
+    @EventHandler
+    public void on(PlayerJoinEvent e) {
+        UUID uuid = e.getPlayer().getUniqueId();
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+        buffer.writeLong(uuid.getMostSignificantBits());
+        buffer.writeLong(uuid.getLeastSignificantBits());
+        customPayload(e.getPlayer(), "figura:uuid", ByteBufUtil.getBytes(buffer));
     }
 
     public void requestReconnect(Player player) {

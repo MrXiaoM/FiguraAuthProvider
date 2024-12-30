@@ -37,6 +37,7 @@ allprojects {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.20-R0.1-SNAPSHOT")
+    compileOnly("io.netty:netty-buffer:4.1.97.Final")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("fr.xephi:authme:5.6.0-SNAPSHOT")
 
