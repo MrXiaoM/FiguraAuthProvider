@@ -3,7 +3,6 @@ package top.mrxiaom.figura.authprovider;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufUtil;
-import io.netty.buffer.CompositeByteBuf;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,7 +35,7 @@ public class PluginMain extends JavaPlugin implements Listener {
     HttpAdapter adapter = null;
     IAuthProvider authProvider = null;
     IPermissionProvider permProvider = null;
-    private static Map<String, OfflinePlayer> playersByName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private static final Map<String, OfflinePlayer> playersByName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     @Override
     public void onEnable() {
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "figura:reconnect");
