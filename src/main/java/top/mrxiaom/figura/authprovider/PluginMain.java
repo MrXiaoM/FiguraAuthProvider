@@ -39,6 +39,7 @@ public class PluginMain extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "figura:reconnect");
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "figura:uuid");
         if (hasPlugin("AuthMe")) {
             authProvider = new AuthMeProvider(this);
         }
