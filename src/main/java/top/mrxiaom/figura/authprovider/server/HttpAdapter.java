@@ -66,6 +66,9 @@ public class HttpAdapter {
                 }
             }
 
+            if (plugin.isLogHttp()) {
+                logger.info(userName + " -> " + responseMsg);
+            }
             byte[] response = responseMsg.getBytes();
             exchange.getResponseHeaders().add("Content-Type", "application/json; charset=utf-8");
             exchange.sendResponseHeaders(responseCode, response.length);
@@ -92,7 +95,9 @@ public class HttpAdapter {
                     sb.append(buffer, 0, len);
                 }
                 String string = sb.toString();
-                logger.info("接收到玩家列表: " + string);
+                if (plugin.isLogHttp()) {
+                    logger.info("接收到玩家列表: " + string);
+                }
                 bungeePlayers.clear();
                 String[] split = string.split(",");
                 for (String s : split) {
