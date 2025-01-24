@@ -21,40 +21,13 @@ public class PlayerEvents implements Listener {
         this.plugin = plugin;
     }
 
-    public void sendCurrentPlayerList() {
-        Set<String> players = new HashSet<>();
-        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
-            if (player.isConnected()) {
-                players.add(player.getName() + ":" + player.getUniqueId().toString());
-            }
-        }
-        String message = String.join(",", players);
-        String url = plugin.getUrl("/pushPlayerList");
-        try {
-            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setUseCaches(false);
-            conn.connect();
-            try (OutputStream output = conn.getOutputStream()) {
-                try (PrintWriter pw = new PrintWriter(output)) {
-                    pw.write(message);
-                    pw.flush();
-                }
-            }
-        } catch (IOException e) {
-            plugin.warn(e);
-        }
-    }
-
     @EventHandler
     public void onDisconnect(ServerDisconnectEvent event) {
-        sendCurrentPlayerList();
+        plugin.sendCurrentPlayerList();
     }
 
     @EventHandler
     public void onConnected(ServerConnectedEvent event) {
-        sendCurrentPlayerList();
+        plugin.sendCurrentPlayerList();
     }
 }

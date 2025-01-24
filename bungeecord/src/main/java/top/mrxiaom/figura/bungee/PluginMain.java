@@ -1,29 +1,32 @@
 package top.mrxiaom.figura.bungee;
 
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Files;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class PluginMain extends Plugin {
     private String apiAddress;
+    PlayerEvents events;
     private ScheduledTask task;
     @Override
     public void onEnable() {
-        PlayerEvents events = new PlayerEvents(this);
-        getProxy().getPluginManager().registerListener(this, events);
+        getProxy().getPluginManager().registerListener(this, new PlayerEvents(this));
         getProxy().getPluginManager().registerCommand(this, new ReloadCommand(this));
         reloadConfig();
 
-        task = getProxy().getScheduler().schedule(this, events::sendCurrentPlayerList, 30, TimeUnit.SECONDS);
+
     }
 
     @Override
@@ -36,6 +39,33 @@ public class PluginMain extends Plugin {
 
     public String getUrl(String path) {
         return apiAddress + path;
+    }
+
+    public void sendCurrentPlayerList() {
+        Set<String> players = new HashSet<>();
+        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+            if (player.isConnected()) {
+                players.add(player.getName() + ":" + player.getUniqueId().toString());
+            }
+        }
+        String message = String.join(",", players);
+        String url = getUrl("/pushPlayerList");
+        try {
+            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.connect();
+            try (OutputStream output = conn.getOutputStream()) {
+                try (PrintWriter pw = new PrintWriter(output)) {
+                    pw.write(message);
+                    pw.flush();
+                }
+            }
+        } catch (IOException e) {
+            warn(e);
+        }
     }
 
     public void reloadConfig() {
@@ -52,6 +82,14 @@ public class PluginMain extends Plugin {
             Configuration config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
             String apiUrl = config.getString("api-url", "http://127.0.0.1:5009");
             this.apiAddress = apiUrl.endsWith("/") ? apiUrl.substring(0, apiUrl.length() - 1) : apiUrl;
+            if (task != null) {
+                task.cancel();
+                task = null;
+            }
+            int timeSeconds = config.getInt("schedule-send-player-list-time-seconds", -1);
+            if (timeSeconds > 0) {
+                task = getProxy().getScheduler().schedule(this, this::sendCurrentPlayerList, timeSeconds, timeSeconds, TimeUnit.SECONDS);
+            }
         } catch (Throwable t) {
             warn(t);
         }

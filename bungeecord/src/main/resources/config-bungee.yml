@@ -1,2 +1,5 @@
-
+# Bukkit 插件 API 地址
 api-url: 'http://127.0.0.1:5009'
+# 是否开一个定时器，定期发送玩家列表到 Bukkit 插件
+# 设置为 -1 关闭，设置为正数，则为多少秒运行一次
+schedule-send-player-list-time-seconds: -1
