@@ -2,8 +2,8 @@ package top.mrxiaom.figura.bungee;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.event.PlayerDisconnectEvent;
-import net.md_5.bungee.api.event.PostLoginEvent;
+import net.md_5.bungee.api.event.ServerConnectedEvent;
+import net.md_5.bungee.api.event.ServerDisconnectEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
@@ -49,12 +49,12 @@ public class PlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDisconnect(PlayerDisconnectEvent event) {
+    public void onDisconnect(ServerDisconnectEvent event) {
         sendCurrentPlayerList();
     }
 
     @EventHandler
-    public void onPostLogin(PostLoginEvent event) {
+    public void onConnected(ServerConnectedEvent event) {
         sendCurrentPlayerList();
     }
 }

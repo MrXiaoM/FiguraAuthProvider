@@ -1,6 +1,7 @@
 package top.mrxiaom.figura.bungee;
 
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
@@ -10,14 +11,27 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Files;
+import java.util.concurrent.TimeUnit;
 
 public class PluginMain extends Plugin {
     private String apiAddress;
+    private ScheduledTask task;
     @Override
     public void onEnable() {
-        getProxy().getPluginManager().registerListener(this, new PlayerEvents(this));
+        PlayerEvents events = new PlayerEvents(this);
+        getProxy().getPluginManager().registerListener(this, events);
         getProxy().getPluginManager().registerCommand(this, new ReloadCommand(this));
         reloadConfig();
+
+        task = getProxy().getScheduler().schedule(this, events::sendCurrentPlayerList, 30, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void onDisable() {
+        if (task != null) {
+            task.cancel();
+            task = null;
+        }
     }
 
     public String getUrl(String path) {
