@@ -38,6 +38,10 @@ public class PluginMain extends Plugin {
         return apiAddress + path;
     }
 
+    public void sendCurrentPlayerListAsync() {
+        getProxy().getScheduler().runAsync(this, this::sendCurrentPlayerList);
+    }
+
     public void sendCurrentPlayerList() {
         Set<String> players = new HashSet<>();
         for (ProxiedPlayer player : getProxy().getPlayers()) {

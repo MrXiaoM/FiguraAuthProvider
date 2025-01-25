@@ -12,26 +12,26 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void onDisconnect(ServerDisconnectEvent event) {
-        plugin.sendCurrentPlayerList();
+        plugin.sendCurrentPlayerListAsync();
     }
 
     @EventHandler
     public void onSwitchServer(ServerSwitchEvent event) {
-        plugin.sendCurrentPlayerList();
+        plugin.sendCurrentPlayerListAsync();
     }
 
     @EventHandler
     public void onPlayerDisconnect(PlayerDisconnectEvent event) {
-        plugin.sendCurrentPlayerList();
+        plugin.sendCurrentPlayerListAsync();
     }
 
     @EventHandler
     public void onConnected(ServerConnectedEvent event) {
-        plugin.sendCurrentPlayerList();
+        plugin.sendCurrentPlayerListAsync();
     }
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        plugin.sendCurrentPlayerList();
+        plugin.sendCurrentPlayerListAsync();
     }
 }
