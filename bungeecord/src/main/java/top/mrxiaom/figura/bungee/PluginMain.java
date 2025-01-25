@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class PluginMain extends Plugin {
     private String apiAddress;
     private ScheduledTask task;
+    private boolean logSubmitMsg;
     @Override
     public void onEnable() {
         getProxy().getPluginManager().registerListener(this, new PlayerEvents(this));
@@ -52,7 +53,7 @@ public class PluginMain extends Plugin {
         String message = String.join(",", players);
         String url = getUrl("/pushPlayerList");
         try {
-            getLogger().info("正在推送玩家列表到 " + url + ": " + message);
+            if (logSubmitMsg) getLogger().info("正在推送玩家列表到 " + url + ": " + message);
             HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
@@ -87,6 +88,7 @@ public class PluginMain extends Plugin {
             }
             Configuration config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
             String apiUrl = config.getString("api-url", "http://127.0.0.1:5009");
+            this.logSubmitMsg = config.getBoolean("log-submit-message", false);
             this.apiAddress = apiUrl.endsWith("/") ? apiUrl.substring(0, apiUrl.length() - 1) : apiUrl;
             if (task != null) {
                 task.cancel();
