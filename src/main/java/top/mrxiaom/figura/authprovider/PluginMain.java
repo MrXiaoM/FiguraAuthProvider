@@ -35,7 +35,7 @@ public class PluginMain extends JavaPlugin implements Listener {
     HttpAdapter adapter = null;
     IAuthProvider authProvider = null;
     IPermissionProvider permProvider = null;
-    boolean logHttp;
+    boolean logHttp, onlyFromProxy;
     private static final Map<String, OfflinePlayer> playersByName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     @Override
     public void onEnable() {
@@ -87,6 +87,7 @@ public class PluginMain extends JavaPlugin implements Listener {
         super.reloadConfig();
         FileConfiguration config = getConfig();
         logHttp = config.getBoolean("log-request-and-response", false);
+        onlyFromProxy = config.getBoolean("only-from-proxy", false);
         String host = config.getString("host", "0.0.0.0");
         int port = config.getInt("port");
         try {
@@ -101,6 +102,10 @@ public class PluginMain extends JavaPlugin implements Listener {
 
     public boolean isLogHttp() {
         return logHttp;
+    }
+
+    public boolean isOnlyFromProxy() {
+        return onlyFromProxy;
     }
 
     private boolean hasPlugin(String plugin) {

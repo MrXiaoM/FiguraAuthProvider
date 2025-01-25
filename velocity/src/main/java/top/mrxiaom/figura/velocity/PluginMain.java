@@ -53,7 +53,7 @@ public class PluginMain {
         new ReloadCommand(this, commandManager);
 
         // 在此处添加登录插件支持
-        // TODO: 支持 Velocity 平台上的登录插件
+        // TODO: 支持 Velocity 平台上的登录插件，在玩家登录后，要执行一次 sendCurrentPlayerList 发送玩家列表
 
         if (authProvider == null) {
             logger.warn("没有发现任何验证提供器，所有在线玩家都可通过验证");

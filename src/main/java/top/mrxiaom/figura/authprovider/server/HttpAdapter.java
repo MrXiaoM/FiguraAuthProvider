@@ -28,28 +28,31 @@ public class HttpAdapter {
         server = HttpServer.create(address, 4096);
         createContext("/hasJoined", exchange -> {
             Map<String, String> query = parseQuery(exchange);
-            int responseCode;
-            String responseMsg;
+            int responseCode = -1;
+            String responseMsg = "";
 
             // String serverId = query.get("serverId");
             String userName = query.get("username");
-            Player player = PluginMain.getOnlinePlayer(userName);
-            if (player != null) {
-                IAuthProvider provider = plugin.getAuthProvider();
-                if (provider != null && !provider.hasLogon(player)) {
-                    responseCode = 403;
-                    responseMsg = "{\"msg\":\"玩家 " + userName + " 还没有登录\"}";
-                } else {
-                    responseCode = 200;
-                    Boolean canUpload = plugin.getPermProvider().playerHas(userName, "figura.upload");
-                    JsonObject json = new JsonObject();
-                    json.addProperty("id", player.getUniqueId().toString());
-                    if (canUpload != null) {
-                        json.addProperty("can_upload", canUpload);
+            if (!plugin.isOnlyFromProxy()) {
+                Player player = PluginMain.getOnlinePlayer(userName);
+                if (player != null) {
+                    IAuthProvider provider = plugin.getAuthProvider();
+                    if (provider != null && !provider.hasLogon(player)) {
+                        responseCode = 403;
+                        responseMsg = "{\"msg\":\"玩家 " + userName + " 还没有登录\"}";
+                    } else {
+                        responseCode = 200;
+                        Boolean canUpload = plugin.getPermProvider().playerHas(userName, "figura.upload");
+                        JsonObject json = new JsonObject();
+                        json.addProperty("id", player.getUniqueId().toString());
+                        if (canUpload != null) {
+                            json.addProperty("can_upload", canUpload);
+                        }
+                        responseMsg = json.toString();
                     }
-                    responseMsg = json.toString();
                 }
-            } else {
+            }
+            if (responseCode == -1) {
                 String uuid = bungeePlayers.get(userName);
                 if (uuid != null) {
                     responseCode = 200;

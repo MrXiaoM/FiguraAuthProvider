@@ -1,4 +1,6 @@
 host: '0.0.0.0'
 port: 5009
-
+# 打印 HTTP 接口部分请求和回应日志
 log-request-and-response: false
+# 不通过登录插件或当前子服在线玩家来验证，仅通过代理端（BungeeCord、Velocity等）发过来的玩家列表来验证
+only-from-proxy: false
