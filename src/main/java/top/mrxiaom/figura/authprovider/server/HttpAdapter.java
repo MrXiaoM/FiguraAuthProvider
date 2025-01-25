@@ -103,7 +103,7 @@ public class HttpAdapter {
                 for (String s : split) {
                     String[] strings = s.split(":", 2);
                     if (strings.length != 2) continue;
-                    bungeePlayers.put(split[0], split[1]);
+                    bungeePlayers.put(strings[0], strings[1]);
                 }
             }
             byte[] response = "{\"msg\":\"ok\"}".getBytes();
