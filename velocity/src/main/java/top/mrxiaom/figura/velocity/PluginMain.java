@@ -52,6 +52,7 @@ public class PluginMain {
         CommandManager commandManager = server.getCommandManager();
         new ReloadCommand(this, commandManager);
 
+        // 在此处添加登录插件支持
         // TODO: 支持 Velocity 平台上的登录插件
 
         if (authProvider == null) {

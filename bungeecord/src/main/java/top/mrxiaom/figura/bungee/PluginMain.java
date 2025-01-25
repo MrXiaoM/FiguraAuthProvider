@@ -7,12 +7,15 @@ import net.md_5.bungee.api.scheduler.ScheduledTask;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import top.mrxiaom.figura.bungee.auth.IAuthProvider;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -20,10 +23,19 @@ public class PluginMain extends Plugin {
     private String apiAddress;
     private ScheduledTask task;
     private boolean logSubmitMsg;
+    IAuthProvider authProvider;
     @Override
     public void onEnable() {
         getProxy().getPluginManager().registerListener(this, new PlayerEvents(this));
         getProxy().getPluginManager().registerCommand(this, new ReloadCommand(this));
+
+        // 在此处添加登录插件支持
+        // TODO: 支持 BungeeCord 平台上的登录插件
+
+        if (authProvider == null) {
+            getLogger().warning("没有发现任何验证提供器，所有在线玩家都可通过验证");
+        }
+
         reloadConfig();
     }
 
@@ -45,11 +57,16 @@ public class PluginMain extends Plugin {
 
     public void sendCurrentPlayerList() {
         Set<String> players = new HashSet<>();
-        for (ProxiedPlayer player : getProxy().getPlayers()) {
+        List<ProxiedPlayer> allPlayers = new ArrayList<>(getProxy().getPlayers());
+        if (authProvider != null) {
+            authProvider.removePlayerNotLogin(allPlayers);
+        }
+        for (ProxiedPlayer player : allPlayers) {
             if (player.isConnected()) {
                 players.add(player.getName() + ":" + player.getUniqueId().toString());
             }
         }
+        allPlayers.clear();
         String message = String.join(",", players);
         String url = getUrl("/pushPlayerList");
         try {

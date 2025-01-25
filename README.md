@@ -48,6 +48,11 @@
 + [AuthMe](https://www.spigotmc.org/resources/6269)
 + *欢迎提交PR，以支持更多登录插件*
 
+> 关于添加登录插件支持，  
+> Bukkit 平台请查看 `top.mrxiaom.figura.authprovider.PluginMain#onEnable`  
+> BungeeCord 平台请查看 `top.mrxiaom.figura.bungee.PluginMain#onEnable`  
+> Velocity 平台请查看 `top.mrxiaom.figura.velocity.PluginMain#onProxyInitialization`  
+
 **代理插件** 会在玩家通过代理端连接或断开连接时，向 Bukkit插件 发送当前代理端的所有玩家列表。由于 BungeeCord 必须要服务器有玩家才能通信，只能这么办了。  
 目前支持的代理端如下：（包括其衍生代理端）
 + BungeeCord (至少需要 Java 8)
