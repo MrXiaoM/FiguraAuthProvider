@@ -3,6 +3,7 @@ package top.mrxiaom.figura.authprovider;
 import org.bukkit.command.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Commands implements CommandExecutor, TabCompleter {
@@ -32,6 +33,6 @@ public class Commands implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        return List.of();
+        return new ArrayList<>();
     }
 }

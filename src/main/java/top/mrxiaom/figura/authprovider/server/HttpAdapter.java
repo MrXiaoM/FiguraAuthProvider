@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.bukkit.entity.Player;
+import top.mrxiaom.figura.authprovider.Java10;
 import top.mrxiaom.figura.authprovider.PluginMain;
 import top.mrxiaom.figura.authprovider.auth.IAuthProvider;
 
@@ -12,7 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Logger;
@@ -139,7 +139,7 @@ public class HttpAdapter {
                 if (split1.length == 1) {
                     map.put(split1[0], "");
                 } else {
-                    map.put(split1[0], URLDecoder.decode(split1[1], StandardCharsets.UTF_8));
+                    map.put(split1[0], Java10.decodeURL(split1[1], StandardCharsets.UTF_8));
                 }
             }
         }

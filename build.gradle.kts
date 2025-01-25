@@ -19,7 +19,7 @@ allprojects {
         maven("https://oss.sonatype.org/content/repositories/snapshots/")
     }
 
-    val targetJavaVersion = 11
+    val targetJavaVersion = 8
     extensions.configure<JavaPluginExtension> {
         val javaVersion = JavaVersion.toVersion(targetJavaVersion)
         sourceCompatibility = javaVersion
