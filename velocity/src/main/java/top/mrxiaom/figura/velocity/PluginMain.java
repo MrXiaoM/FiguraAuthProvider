@@ -13,6 +13,7 @@ import com.velocitypowered.api.scheduler.ScheduledTask;
 import org.slf4j.Logger;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
+import top.mrxiaom.figura.velocity.auth.IAuthProvider;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -20,8 +21,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Plugin(
@@ -40,6 +40,7 @@ public class PluginMain {
     String apiAddress;
     ScheduledTask task;
     boolean logSubmitMsg;
+    IAuthProvider authProvider;
 
     public File getDataFolder() {
         return dataFolder.toFile();
@@ -50,6 +51,12 @@ public class PluginMain {
         server.getEventManager().register(this, new PlayerEvents(this));
         CommandManager commandManager = server.getCommandManager();
         new ReloadCommand(this, commandManager);
+
+        // TODO: 支持 Velocity 平台上的登录插件
+
+        if (authProvider == null) {
+            logger.warn("没有发现任何验证提供器，所有在线玩家都可通过验证");
+        }
     }
 
     @Subscribe
@@ -70,12 +77,16 @@ public class PluginMain {
 
     public void sendCurrentPlayerList() {
         Set<String> players = new HashSet<>();
-        for (Player player : server.getAllPlayers()) {
+        List<Player> allPlayers = new ArrayList<>(server.getAllPlayers());
+        if (authProvider != null) {
+            authProvider.removePlayerNotLogin(allPlayers);
+        }
+        for (Player player : allPlayers) {
             if (player.isActive()) {
-
                 players.add(player.getUsername() + ":" + player.getUniqueId().toString());
             }
         }
+        allPlayers.clear();
         String message = String.join(",", players);
         String url = getUrl("/pushPlayerList");
         try {
