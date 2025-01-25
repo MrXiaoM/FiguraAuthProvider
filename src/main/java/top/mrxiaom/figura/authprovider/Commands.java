@@ -22,6 +22,11 @@ public class Commands implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        if (args.length == 1 && "reload".equalsIgnoreCase(args[0]) && sender.isOp()) {
+            plugin.reloadConfig();
+            sender.sendMessage("&a配置文件已重载");
+            return true;
+        }
         return true;
     }
 
