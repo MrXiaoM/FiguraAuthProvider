@@ -12,4 +12,7 @@ tasks {
             include("bungee.yml")
         }
     }
+    jar {
+        archiveBaseName.set("${rootProject.name}-${project.name}")
+    }
 }
