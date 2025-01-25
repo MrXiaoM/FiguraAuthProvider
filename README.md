@@ -29,7 +29,7 @@
 > ```
 > 这样就可以了。
 
-**Bukkit插件** 会开启一个 http服务器，有以下接口可使用
+**Bukkit插件** 至少需要 Java 8 来运行，它会开启一个 http服务器，有以下接口可使用
 + `GET /hasJoined` 用于后端 sculptor 的 authProviders
 + `POST /pushPlayerList` 用于接收代理端推送的全服玩家列表
 + (这个http服务器仅用于内网，请勿公开)
