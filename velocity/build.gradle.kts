@@ -23,5 +23,6 @@ tasks {
     }
     jar {
         archiveBaseName.set("${rootProject.name}-${project.name}")
+        destinationDirectory.set(File(rootProject.projectDir, "out"))
     }
 }

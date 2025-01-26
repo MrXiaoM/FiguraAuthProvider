@@ -53,9 +53,11 @@ tasks {
     shadowJar {
         archiveClassifier.set("")
         configurations = listOf(project.configurations.getByName("shadowLink"))
+        destinationDirectory.set(File(rootProject.projectDir, "out"))
     }
-    build {
-        dependsOn(shadowJar)
+    jar {
+        archiveBaseName.set("${rootProject.name}-bukkit")
+        destinationDirectory.set(File(rootProject.projectDir, "out"))
     }
     processResources {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
