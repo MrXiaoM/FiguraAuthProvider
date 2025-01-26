@@ -58,23 +58,13 @@
 + BungeeCord (至少需要 Java 8)
 + Velocity (至少需要 Java 17)
 
-## 推荐方案
+## 构建
 
-由于导出的模型不是很大，Figura Mod 也有完善的重连机制，使用 Cloudflare Tunnel 也足够自建后端了，而且还有足够的免费防御。
-
-目前仓库所有者的所有服务部署在主服务器：
-+ Waterfall 代理端
-+ Purpur 服务端
-+ sculptor 后端
-+ Syncthing 同步工具
-
-租了几台低配置高带宽的服务器，做低成本游戏盾和负载均衡：
-+ hopper-rs 反向代理，连接 Waterfall 代理端
-+ Syncthing 同步工具
-+ nginx 静态页面，配合 Syncthing 分发服务器资源包
-
-使用 Cloudflare Tunnel 为以下服务做内网穿透：
-+ sculptor 后端
+使用 Java 17 构建，除了 velocity 模块以外，其它模块均兼容至 Java 8。
+```shell
+./gradlew clean build
+```
+构建产物会出现在 `out` 目录。
 
 ## 鸣谢
 
